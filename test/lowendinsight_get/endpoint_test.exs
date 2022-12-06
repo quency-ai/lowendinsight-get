@@ -114,6 +114,7 @@ defmodule LowendinsightGet.EndpointTest do
     conn = LowendinsightGet.Endpoint.call(conn, @opts)
 
     # Assert the response
+    assert conn.resp_body == "{\"error\":\"invalid URLs list\"}"
     assert conn.status == 422
   end
 
@@ -167,11 +168,11 @@ defmodule LowendinsightGet.EndpointTest do
 
   test "it returns 200 when report is valid for the /url= endpoint" do
      # Create a test connection
-     conn = conn(:get, "/url=https%3A%2F%2Fgithub.com%2Felixir-lang%2Fex_doc?")
+     conn = conn(:get, "/url=https%3A%2F%2Fgithub.com%2Fkitplummer%2Fgoa?")
 
      # Invoke the plug
      conn = LowendinsightGet.Endpoint.call(conn, @opts)
- 
+
      # Assert the response and status
      assert conn.state == :sent
      assert conn.status == 200
@@ -184,7 +185,7 @@ defmodule LowendinsightGet.EndpointTest do
 
       # Invoke the plug
       conn = LowendinsightGet.Endpoint.call(conn, @opts)
-  
+
       # Assert the response and status
       assert conn.state == :sent
       assert conn.status == 401

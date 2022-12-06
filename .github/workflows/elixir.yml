@@ -3,13 +3,11 @@ name: default_elixir_ci
 on:
   pull_request:
     branches:
-      - 'develop'
+      - develop
   push:
-    branches:
-      - '*'         # matches every branch
-      - '*/*'       # matches every branch containing a single '/'
-      - '!main'     # excludes main - no pushes allowed
-      - '!develop'  # excludes develop - no pushes allowed
+    branches-ignore:
+      - main     # excludes main - no pushes allowed
+      - develop  # excludes develop - no pushes allowed
 
 jobs:
   build:
@@ -18,17 +16,22 @@ jobs:
     env:
       MIX_ENV: test
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    # container:
-    #   image: elixir:1.9.4-alpine
+#    container:
+#      image: elixir:1.14.1-alpine
+    strategy:
+      matrix:
+        otp: ['24']
+        elixir: ['1.12.0']
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-      - uses: actions/setup-elixir@v1
+      - uses: erlef/setup-beam@v1
         with:
-          otp-version: 22.x
-          elixir-version: 1.9.x
-          experimental-otp: true
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}      
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3.5.1
+        with:
+          node-version: 16
       - uses: zhulik/redis-action@1.1.0
         with:
           redis version: '5'
