@@ -35,6 +35,7 @@ defmodule LowendinsightGet.MixProject do
       {:quantum, "~> 3.5"},
       {:timex, "~> 3.7"},
       {:exq, "~> 0.17"},
+      {:exq_limit, "~> 0.1.3"},
       ## {:lowendinsight, path: "../lowendinsight"},
       ## {:lowendinsight, git: "git@bitbucket.org:gtri/lowendinsight", branch: "develop"}
       {:lowendinsight, "0.7.2"},

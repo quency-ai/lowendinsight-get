@@ -84,8 +84,6 @@ config :lowendinsight,
   ## Base directory structure for temp clones
   base_temp_dir: System.get_env("LEI_BASE_TEMP_DIR") || "/tmp"
 
-import_config "#{Mix.env()}.exs"
-
 config :redix,
   redis_url: System.get_env("REDIS_URL") || "redis://localhost:6379"
 
@@ -95,3 +93,5 @@ config :lowendinsight_get, LowendinsightGet.Scheduler,
     {"*/5 * * * *", {LowendinsightGet.CacheCleaner, :clean, []}},
     {"0 0 * * *", {LowendinsightGet.GithubTrending, :analyze, []}}
   ]
+
+import_config "#{Mix.env()}.exs"

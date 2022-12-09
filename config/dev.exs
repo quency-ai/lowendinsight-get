@@ -4,6 +4,8 @@
 
 import Config
 
+config :logger, :console, format: "$time $metadata[$level] $message\n"
+
 config :lowendinsight_get,
   check_repo_size?: String.to_atom(System.get_env("LEI_CHECK_REPO_SIZE") || "true"),
   gh_token: System.get_env("LEI_GH_TOKEN") || "",
@@ -12,7 +14,8 @@ config :lowendinsight_get,
   use_workers: true
 
 config :redix,
-  timeout: :infinity
+  timeout: :infinity,
+  redis_url: "redis://localhost:6379/10"
 
 config :exq,
   name: Exq,
@@ -20,11 +23,12 @@ config :exq,
   port: 6379,
   #password: "optional_redis_auth",
   namespace: "exq",
-  concurrency: :infinite,
-  queues: [],
+  concurrency: 1,
   poll_timeout: 49,
   scheduler_poll_timeout: 199,
   scheduler_enable: true,
   max_retries: 24,
   mode: :default,
-  shutdown_timeout: 5000
+  shutdown_timeout: 5000,
+  database: 10,
+  queues: []
